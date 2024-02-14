@@ -1,0 +1,47 @@
+:root {
+  --white: #ffffff;
+  --black: #222222;
+  --lightGrey: #979797;
+}
+body {
+  background-color: var(--black);
+  color: var(--white);
+  font-family: 'Styrene A Web', 'Helvetica Neue', sans-serif;
+  padding: 2rem;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+div {
+  color: var(--white);
+}
+select {
+  color: var(--white);
+  background: var(--black);
+}
+hr {
+  background: var(--lightGrey);
+}
+.graph {
+}
+
+.first-section {
+  padding: 0 2rem;
+}
+.container {
+  & .row {
+    display: flex;
+    & .column {
+      padding: 2rem;
+      flex-basis: 66%;
+      &:first-child {
+        flex-basis: 33%;
+      }
+    }
+  }
+}

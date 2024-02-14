@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>NFT Ecosystem Metrics</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite-api@5.6.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-tooltip"></script>
+  </head>
+
+  <body>
+    <section class="first-section">
+      <h2>On-chain metrics</h2>
+      <p>
+        View the Hedera NFT ecosystem through the lens of on-chain metrics. Explore active
+        accounts, NFT transfers, mints, and more.
+      </p>
+      <hr />
+    </section>
+    <div class="container">
+      <section class="row">
+        <div class="column">
+          <h3>NFT Ecosystem Accounts</h3>
+          <select>
+            <option value="day">Day</option>
+            <option value="week">Week</option>
+            <option value="month" selected="selected">Month</option>
+            <option value="quarter">Quarter</option>
+            <option value="year">Year to Date</option>
+            <option value="century">All time</option>
+          </select>
+          <h4>ACTIVE NFT ECOSYSTEM RETAIL ACCOUNTS ON HEDERA</h4>
+          <p>
+            Accounts that have performed at least one NFT-related retail transaction (NFT
+            association, NFT transfer, received an NFT, per the specified period of time.
+          </p>
+        </div>
+        <div class="column">
+          <div
+            id="account_associated_nft"
+            class="graph"
+            data-spec="bar"
+            data-title="Total accounts associating nfts"
+          ></div>
+        </div>
+        <div
+          id="account_sent_nft"
+          class="graph"
+          data-spec="bar"
+          data-title="Accounts that sent an nft"
+        ></div>
+        <div>
+          <div
+            id="account_received_nft"
+            class="graph"
+            data-spec="bar"
+            data-title="Accounts that received an nft"
+          ></div>
+          <div
+            id="active_nft_account"
+            class="graph"
+            data-spec="bar"
+            data-title="Total unique accounts that have performed 1 or more nft actions"
+          ></div>
+        </div>
+      </section>
+      <section class="row">
+        <div class="column">
+          <h4>Active NFT ecosystem builder accounts on Hedera</h4>
+          <p>
+            Accounts that have performed at least one NFT-related project/developer transaction
+            (NFT collection creation, NFT mint), per the specified period of
+          </p>
+          <select>
+            <option value="day">Day</option>
+            <option value="week">Week</option>
+            <option value="month" selected="selected">Month</option>
+            <option value="quarter">Quarter</option>
+            <option value="year">Year to Date</option>
+            <option value="century">All time</option>
+          </select>
+        </div>
+        <div class="column">
+          <div
+            id="todo"
+            class="graph"
+            data-spec="bar"
+            data-title="Accounts creating nft collections"
+          ></div>
+          <div
+            id="account_minted_nft"
+            class="graph"
+            data-spec="bar"
+            data-title="Accounts that minted an nft"
+          ></div>
+          <div
+            id="active_nft_builder_account"
+            class="graph"
+            data-spec="bar"
+            data-title="Accounts creating nft collections"
+          ></div>
+        </div>
+      </section>
+      <section class="row">
+        <div class="column">
+          <h3>NFT ecosystem activity</h3>
+          <select>
+            <option value="day">Day</option>
+            <option value="week">Week</option>
+            <option value="month" selected="selected">Month</option>
+            <option value="quarter">Quarter</option>
+            <option value="year">Year to Date</option>
+            <option value="century">All time</option>
+          </select>
+          <p>Number of NFT collections created on Hedera, per the specified period of time.</p>
+        </div>
+
+        <div class="column">
+          <div
+            id="todo"
+            class="graph"
+            data-spec="bar"
+            data-title="NFT collections on Hedera"
+          ></div>
+        </div>
+      </section>
+      <section class="row">
+        <div class="column">
+          <p>
+            Number of NFTs minted into an existing NFT collection on Hedera, per the specified
+            period of time.
+          </p>
+        </div>
+        <div class="column">
+          <div
+            id="nft_minted"
+            class="graph"
+            data-spec="line"
+            data-title="NFTS MINTED INTO AN EXISTING COLLECTION ON HEDERA"
+          ></div>
+          <div
+            id="nft_minted"
+            class="graph"
+            data-spec="line"
+            data-title="Cumulative NFTs minted into an existing collection on Hedera"
+          ></div>
+        </div>
+      </section>
+      <section class="row">
+        <div class="column">
+          <h2>NFT Ecosystem Account Cohort Analysis</h2>
+          <p>
+            Accounts in the Hedera NFT ecosystem that performed their first NFT
+            ecosystem-related transaction and the percentage of accounts that returned to
+            perform another related transaction in subsequent weeks.
+          </p>
+        </div>
+        <div class="column">
+          <div id="todo" class="graph" data-spec="cohort"></div>
+        </div>
+      </section>
+    </div>
+
+    <script type="module">
+      import * as app from './index.js'
+
+      const data = await app.fetchData()
+
+      // https://observablehq.com/@vega/vega-lite-api-v5#standalone_use
+      // https://vega.github.io/vega-lite/docs/config.html
+      const options = {
+        config: {
+          mark: {tooltip: null},
+        },
+        init: (view) => {
+          view.tooltip(new vegaTooltip.Handler().call)
+          if (view.container()) view.container().style['overflow-x'] = 'auto'
+        },
+        view: {
+          renderer: 'canvas',
+        },
+      }
+
+      // register vega and vega-lite with the API
+      vl.register(vega, vegaLite, options)
+
+      async function render(select) {
+        const siblings = select
+          ? select.parentElement.parentElement.querySelectorAll('.graph')
+          : document.querySelectorAll('.graph')
+        for (const element of siblings) {
+          const metric = element.id
+          const period = select?.value || 'month'
+          const title = element.getAttribute('data-title').toUpperCase()
+          const spec = element.getAttribute('data-spec')
+          const graph = await app[spec]({
+            data: data.all_metrics.filter((d) => d.name === metric && d.period === period),
+            period,
+            title,
+          })
+          element.innerHTML = ''
+          element.appendChild(graph)
+        }
+      }
+      render()
+
+      // render when select changes
+      document.querySelectorAll('select').forEach((e) => {
+        e.onchange = (e) => {
+          render(e.target)
+        }
+      })
+    </script>
+  </body>
+</html>
