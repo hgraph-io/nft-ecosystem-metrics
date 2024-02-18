@@ -21,7 +21,7 @@
         <span>Total NFTs</span>
       </div>
       <div>
-        $TODO
+        <div id="nft_holders" class="metric"></div>
         <span>Total NFT holders</span>
       </div>
     </section>
@@ -209,6 +209,9 @@
       vl.register(vega, vegaLite, options)
 
       async function render(select) {
+        /*
+         * graphs
+         */
         const siblings = select
           ? select.parentElement.parentElement.querySelectorAll('.graph')
           : document.querySelectorAll('.graph')
@@ -224,6 +227,17 @@
           })
           element.innerHTML = ''
           element.appendChild(graph)
+        }
+        /*
+         * metrics
+         */
+        const metrics = document.querySelectorAll('.metric')
+        for (const element of metrics) {
+          const metric = element.id
+          const value = data.all_metrics.find(
+            (d) => d.name === metric && d.period === 'century'
+          )
+          element.innerHTML = value.total
         }
       }
       render()
