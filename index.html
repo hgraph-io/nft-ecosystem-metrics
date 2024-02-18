@@ -46,9 +46,9 @@
         <div class="column">
           <h3>NFT Ecosystem Accounts</h3>
           <select>
-            <option value="day">Day</option>
+            <option value="day" selected="selected">Day</option>
             <option value="week">Week</option>
-            <option value="month" selected="selected">Month</option>
+            <option value="month">Month</option>
             <option value="quarter">Quarter</option>
             <option value="year">Year to Date</option>
             <option value="century">All time</option>
@@ -61,27 +61,27 @@
         </div>
         <div class="column">
           <div
-            id="account_associated_nft"
+            id="accounts_associating_nfts"
             class="graph"
             data-spec="bar"
             data-title="Total accounts associating nfts"
           ></div>
         </div>
         <div
-          id="account_sent_nft"
+          id="accounts_sending_nfts"
           class="graph"
           data-spec="bar"
           data-title="Accounts that sent an nft"
         ></div>
         <div>
           <div
-            id="account_received_nft"
+            id="accounts_receiving_nfts"
             class="graph"
             data-spec="bar"
             data-title="Accounts that received an nft"
           ></div>
           <div
-            id="active_nft_account"
+            id="active_nft_accounts"
             class="graph"
             data-spec="bar"
             data-title="Total unique accounts that have performed 1 or more nft actions"
@@ -96,9 +96,9 @@
             (NFT collection creation, NFT mint), per the specified period of
           </p>
           <select>
-            <option value="day">Day</option>
+            <option value="day" selected="selected">Day</option>
             <option value="week">Week</option>
-            <option value="month" selected="selected">Month</option>
+            <option value="month">Month</option>
             <option value="quarter">Quarter</option>
             <option value="year">Year to Date</option>
             <option value="century">All time</option>
@@ -106,19 +106,19 @@
         </div>
         <div class="column">
           <div
-            id="todo"
+            id="accounts_creating_nft_collections"
             class="graph"
             data-spec="bar"
             data-title="Accounts creating nft collections"
           ></div>
           <div
-            id="account_minted_nft"
+            id="accounts_minting_nfts"
             class="graph"
             data-spec="bar"
             data-title="Accounts that minted an nft"
           ></div>
           <div
-            id="active_nft_builder_account"
+            id="active_nft_builder_accounts"
             class="graph"
             data-spec="bar"
             data-title="Accounts creating nft collections"
@@ -129,9 +129,9 @@
         <div class="column">
           <h3>NFT ecosystem activity</h3>
           <select>
-            <option value="day">Day</option>
+            <option value="day" selected="selected">Day</option>
             <option value="week">Week</option>
-            <option value="month" selected="selected">Month</option>
+            <option value="month">Month</option>
             <option value="quarter">Quarter</option>
             <option value="year">Year to Date</option>
             <option value="century">All time</option>
@@ -141,10 +141,10 @@
 
         <div class="column">
           <div
-            id="todo"
+            id="nft_collections_created"
             class="graph"
             data-spec="bar"
-            data-title="NFT collections on Hedera"
+            data-title="New NFT collections on Hedera"
           ></div>
         </div>
       </section>
@@ -214,7 +214,7 @@
           : document.querySelectorAll('.graph')
         for (const element of siblings) {
           const metric = element.id
-          const period = select?.value || 'month'
+          const period = select?.value || 'day'
           const title = element.getAttribute('data-title').toUpperCase()
           const spec = element.getAttribute('data-spec')
           const graph = await app[spec]({
