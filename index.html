@@ -59,9 +59,9 @@
         <div class="column">
           <h3>NFT Ecosystem Accounts</h3>
           <select>
-            <option value="day" selected="selected">Day</option>
+            <option value="day">Day</option>
             <option value="week">Week</option>
-            <option value="month">Month</option>
+            <option value="month" selected="selected">Month</option>
             <option value="quarter">Quarter</option>
             <option value="year">Year to Date</option>
             <option value="century">All time</option>
@@ -109,9 +109,9 @@
             (NFT collection creation, NFT mint), per the specified period of
           </p>
           <select>
-            <option value="day" selected="selected">Day</option>
+            <option value="day">Day</option>
             <option value="week">Week</option>
-            <option value="month">Month</option>
+            <option value="month" selected="selected">Month</option>
             <option value="quarter">Quarter</option>
             <option value="year">Year to Date</option>
             <option value="century">All time</option>
@@ -142,9 +142,9 @@
         <div class="column">
           <h3>NFT ecosystem activity</h3>
           <select>
-            <option value="day" selected="selected">Day</option>
+            <option value="day">Day</option>
             <option value="week">Week</option>
-            <option value="month">Month</option>
+            <option value="month" selected="selected">Month</option>
             <option value="quarter">Quarter</option>
             <option value="year">Year to Date</option>
             <option value="century">All time</option>
@@ -231,7 +231,7 @@
           : document.querySelectorAll('.graph')
         for (const element of siblings) {
           const metric = element.id
-          const period = select?.value || 'day'
+          const period = select?.value || 'month'
           const title = element.getAttribute('data-title')?.toUpperCase()
           const spec = element.getAttribute('data-spec')
           const style = element.getAttribute('data-style') || 'dark'

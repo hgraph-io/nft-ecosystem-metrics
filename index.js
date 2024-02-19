@@ -58,7 +58,7 @@ const styles = {
 
 export async function fetchData() {
   const hg = async (query) => {
-    const response = await fetch('https://testnet.hedera.api.hgraph.dev/v1/graphql', {
+    const response = await fetch('https://mainnet.hedera.api.hgraph.dev/v1/graphql', {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
