@@ -13,7 +13,7 @@
   <body>
     <section class="container bubble">
       <div>
-        <div id="nft_market_cap_in_hbar" class="metric"></div>
+        <div id="nft_market_cap" class="metric"></div>
         <span>Total Market Cap</span>
       </div>
       <div>
@@ -26,12 +26,25 @@
       </div>
     </section>
     <section class="container">
-      <h2>Total NFT Sales Volume</h2>
-      <h2>$TODO</h2>
-      <label class="switch">
-        <input type="checkbox" />
-        <span class="slider round"></span>
-      </label>
+      <div class="row">
+        <div class="column">
+          <h2>Total NFT Sales Volume</h2>
+          <div id="nft_sales_volume" class="metric"></div>
+          <label class="switch">
+            <input type="checkbox" />
+            <span class="slider round"></span>
+          </label>
+        </div>
+        <div class="column">
+          <div
+            id="nft_sales_volume"
+            class="graph"
+            data-spec="bar"
+            data-title="NFT Sales Volume"
+            data-style="light"
+          ></div>
+        </div>
+      </div>
     </section>
     <section class="container dark">
       <h2>On-chain metrics</h2>
@@ -155,20 +168,20 @@
             period of time.
           </p>
         </div>
-        <div class="column">
-          <div
-            id="nft_minted"
-            class="graph"
-            data-spec="line"
-            data-title="NFTS MINTED INTO AN EXISTING COLLECTION ON HEDERA"
-          ></div>
-          <div
-            id="nft_minted"
-            class="graph"
-            data-spec="line"
-            data-title="Cumulative NFTs minted into an existing collection on Hedera"
-          ></div>
-        </div>
+        <!-- <div class="column"> -->
+        <!--   <div -->
+        <!--     id="nft_minted" -->
+        <!--     class="graph" -->
+        <!--     data-spec="line" -->
+        <!--     data-title="NFTS MINTED INTO AN EXISTING COLLECTION ON HEDERA" -->
+        <!--   ></div> -->
+        <!--   <div -->
+        <!--     id="nft_minted" -->
+        <!--     class="graph" -->
+        <!--     data-spec="line" -->
+        <!--     data-title="Cumulative NFTs minted into an existing collection on Hedera" -->
+        <!--   ></div> -->
+        <!-- </div> -->
       </section>
       <section class="row">
         <div class="column">
@@ -179,9 +192,9 @@
             perform another related transaction in subsequent weeks.
           </p>
         </div>
-        <div class="column">
-          <div id="todo" class="graph" data-spec="cohort"></div>
-        </div>
+        <!-- <div class="column"> -->
+        <!--   <div id="todo" class="graph" data-spec="cohort"></div> -->
+        <!-- </div> -->
       </section>
     </div>
 
@@ -218,12 +231,14 @@
         for (const element of siblings) {
           const metric = element.id
           const period = select?.value || 'day'
-          const title = element.getAttribute('data-title').toUpperCase()
+          const title = element.getAttribute('data-title')?.toUpperCase()
           const spec = element.getAttribute('data-spec')
+          const style = element.getAttribute('data-style') || 'dark'
           const graph = await app[spec]({
             data: data.all_metrics.filter((d) => d.name === metric && d.period === period),
             period,
             title,
+            style,
           })
           element.innerHTML = ''
           element.appendChild(graph)
@@ -240,14 +255,21 @@
           element.innerHTML = value.total
         }
       }
-      render()
 
-      // render when select changes
+      // render when select menus change
       document.querySelectorAll('select').forEach((e) => {
         e.onchange = (e) => {
           render(e.target)
         }
       })
+
+      // see if DOM is already available then render inital state
+      if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        setTimeout(render, 1)
+        setTimeout(() => window.dispatchEvent(new Event('resize')), 1)
+      } else {
+        document.addEventListener('DOMContentLoaded', render)
+      }
     </script>
   </body>
 </html>

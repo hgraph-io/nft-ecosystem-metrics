@@ -8,14 +8,8 @@ body {
   font-family: 'Styrene A Web', 'Helvetica Neue', sans-serif;
   margin: 0;
 }
-select {
-  color: var(--white);
-  background: var(--black);
-}
 hr {
   background: var(--lightGrey);
-}
-.graph {
 }
 
 .container {

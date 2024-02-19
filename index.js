@@ -41,12 +41,6 @@ export async function fetchData() {
   }
 
   const query = `query AllMetrics {
-  time_periods : ecosystem_metric(distinct_on: period ){
-    period
-  },
-  metric_names : ecosystem_metric(distinct_on: name){
-    name
-  }
   all_metrics: ecosystem_metric {
     name
     period
@@ -61,7 +55,7 @@ export async function fetchData() {
   return json
 }
 
-export function bar({data, period, title}, style = 'dark') {
+export function bar({data, period, title, style = 'dark'}) {
   // https://observablehq.com/@vega/vega-lite-annotated-time-series?collection=@vega/vega-lite-api
   const hover = vl
     .selectPoint('hover')
@@ -152,21 +146,6 @@ export function bar({data, period, title}, style = 'dark') {
       .transform(vl.filter(hover.empty(false)))
       .encode(vl.text().field('end_date').timeUnit(vegaLiteTimeUnit[period]))
   )
-
-  const docReady = (fn) => {
-    // see if DOM is already available
-    if (document.readyState === 'complete' || document.readyState === 'interactive') {
-      // call on next available tick
-      setTimeout(fn, 1)
-    } else {
-      document.addEventListener('DOMContentLoaded', fn)
-    }
-  }
-
-  docReady(function () {
-    // DOM is loaded and ready for manipulation here
-    window.dispatchEvent(new Event('resize'))
-  })
 
   return vl
     .layer(barGraph, bubble)
