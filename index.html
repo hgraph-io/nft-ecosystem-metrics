@@ -168,20 +168,21 @@
             period of time.
           </p>
         </div>
-        <!-- <div class="column"> -->
-        <!--   <div -->
-        <!--     id="nft_minted" -->
-        <!--     class="graph" -->
-        <!--     data-spec="line" -->
-        <!--     data-title="NFTS MINTED INTO AN EXISTING COLLECTION ON HEDERA" -->
-        <!--   ></div> -->
-        <!--   <div -->
-        <!--     id="nft_minted" -->
-        <!--     class="graph" -->
-        <!--     data-spec="line" -->
-        <!--     data-title="Cumulative NFTs minted into an existing collection on Hedera" -->
-        <!--   ></div> -->
-        <!-- </div> -->
+        <div class="column">
+          <div
+            id="nfts_minted"
+            class="graph"
+            data-spec="line"
+            data-title="NFTs minted Hedera"
+          ></div>
+          <div
+            id="nfts_minted"
+            class="graph"
+            data-spec="line"
+            data-title="Cumulative NFTs minted"
+            data-options='{"cumulative": true}'
+          ></div>
+        </div>
       </section>
       <section class="row">
         <div class="column">
@@ -234,11 +235,13 @@
           const title = element.getAttribute('data-title')?.toUpperCase()
           const spec = element.getAttribute('data-spec')
           const style = element.getAttribute('data-style') || 'dark'
+          const options = JSON.parse(element.getAttribute('data-options') || '{}')
           const graph = await app[spec]({
             data: data.all_metrics.filter((d) => d.name === metric && d.period === period),
             period,
             title,
             style,
+            ...options,
           })
           element.innerHTML = ''
           element.appendChild(graph)
@@ -254,6 +257,7 @@
           )
           element.innerHTML = value.total
         }
+        window.dispatchEvent(new Event('resize'))
       }
 
       // render when select menus change
@@ -266,7 +270,6 @@
       // see if DOM is already available then render inital state
       if (document.readyState === 'complete' || document.readyState === 'interactive') {
         setTimeout(render, 1)
-        setTimeout(() => window.dispatchEvent(new Event('resize')), 1)
       } else {
         document.addEventListener('DOMContentLoaded', render)
       }

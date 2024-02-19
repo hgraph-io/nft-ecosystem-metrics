@@ -9,6 +9,8 @@ const vegaLiteTimeUnit = {
 }
 
 const styles = {
+  fontFamily: 'Styrene A Web',
+  stroke: 'transparent',
   color: {
     main: '#4a8359',
     hover: '#3ec878',
@@ -20,6 +22,37 @@ const styles = {
     darkGrey: '#393939',
     lightGrey: '#979797',
     lighterGrey: '#eaeaea',
+  },
+  xAxis: {
+    get labelColor() {
+      return styles.color.white
+    },
+    labelFontSize: 12,
+    labelFontWeight: 300,
+    labelPadding: 15,
+    padding: 100,
+    position: 0,
+    get gridColor() {
+      return styles.color.darkGrey
+    },
+    ticks: false,
+    //the axis baseline
+    get domainColor() {
+      return styles.color.lightGrey
+    },
+  },
+  yAxis: {
+    get labelColor() {
+      return styles.color.white
+    },
+    labelFontSize: 12,
+    labelFontWeight: 300,
+    labelPadding: 15,
+    gridColor: 'transparent',
+    ticks: false,
+    get domainColor() {
+      return styles.color.lightGrey
+    },
   },
 }
 
@@ -74,31 +107,9 @@ export function bar({data, period, title, style = 'dark'}) {
         .timeUnit(vegaLiteTimeUnit[period])
         .field('end_date')
         .bandPosition(0.5)
-        .axis({
-          labelColor: style === 'dark' ? styles.color.white : styles.color.black,
-          labelFontSize: 12,
-          labelFontWeight: 300,
-          labelPadding: 15,
-          padding: 100,
-          position: 0,
-          gridColor: style === 'dark' ? styles.color.darkGrey : styles.color.lighterGrey,
-          ticks: false,
-          domainColor: styles.color.lightGrey,
-        })
+        .axis(styles.xAxis)
         .title(null),
-      vl
-        .y()
-        .fieldQ('total')
-        .title(null)
-        .axis({
-          labelColor: style === 'dark' ? styles.color.white : styles.color.black,
-          labelFontSize: 12,
-          labelFontWeight: 300,
-          labelPadding: 15,
-          gridColor: 'transparent',
-          ticks: false,
-          domainColor: styles.color.lightGrey,
-        }), //https://vega.github.io/vega-lite/docs/axis.html
+      vl.y().fieldQ('total').title(null).axis(styles.yAxis), //https://vega.github.io/vega-lite/docs/axis.html
       vl
         .color()
         .if(hover.empty(true), {
@@ -153,8 +164,66 @@ export function bar({data, period, title, style = 'dark'}) {
     .autosize({type: 'fit-x', resize: true, contains: 'padding'})
     .background('transparent')
     .config({
-      font: 'Styrene A Web',
-      view: {stroke: 'transparent'},
-    }) // font family and view border
+      font: styles.fontFamily,
+      view: {stroke: styles.stroke},
+    })
+    .render()
+}
+
+export function line({data, period, title, cumulative = false, style = 'dark'}) {
+  const line = vl
+    .markLine({
+      interpolate: 'monotone',
+      point: false,
+      strokeWidth: 3,
+    })
+    .data(data)
+    .transform(
+      cumulative ? [vl.window(vl.sum('total').as('cumulative')).sort(vl.field('end_date'))] : []
+    )
+    .title({text: title, color: style === 'dark' ? styles.color.white : styles.color.black})
+    .encode(
+      vl.x().fieldT('end_date').title(null).axis(styles.xAxis),
+      vl
+        .y()
+        .fieldQ(cumulative ? 'cumulative' : 'total')
+        .title(null)
+        .axis(styles.yAxis),
+      vl.color().value(styles.color.lightGreen)
+    )
+
+  // https://observablehq.com/@vega/vega-lite-annotated-time-series?collection=@vega/vega-lite-api
+  // select a point for which to provide details-on-demand
+  const hover = vl
+    .selectPoint('hover')
+    .encodings('x') // limit selection to x-axis value
+    .on('mouseover') // select on mouseover events
+    .toggle(false) // disable toggle on shift-hover
+    .nearest(true) // select data point nearest the cursor
+
+  const bubble = vl.layer(
+    line
+      .markCircle({fill: styles.color.white, size: 30})
+      .params(hover)
+      .encode(vl.opacity().if(hover.empty(false), vl.value(1)).value(0)),
+    // count on hover
+    line
+      .markText(
+        {align: 'center', dx: 0, dy: -30},
+        {stroke: styles.color.white, strokeWidth: 1},
+        {fontSize: 15, fontWeight: 300}
+      )
+      .encode([
+        vl.opacity().if(hover.empty(false), vl.value(1)).value(0),
+        vl.text().field(cumulative ? 'cumulative' : 'total'),
+      ])
+  )
+
+  return vl
+    .layer(line, bubble)
+    .width('container')
+    .autosize({type: 'fit-x', resize: true, contains: 'padding'})
+    .background('transparent')
+    .config({font: styles.fontFamily, view: {stroke: styles.stroke}}) // font family and view border
     .render()
 }
