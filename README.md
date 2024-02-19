@@ -1,0 +1,3 @@
+# Developing
+
+`npx http-server .`

@@ -196,6 +196,12 @@
         <!-- <div class="column"> -->
         <!--   <div id="todo" class="graph" data-spec="cohort"></div> -->
         <!-- </div> -->
+        <iframe
+          width="100%"
+          height="684"
+          frameborder="0"
+          src="https://observablehq.com/embed/@hgraph/hedera-nft-ecosystem-cohort-analysis@2247?cells=viewof+selection"
+        ></iframe>
       </section>
     </div>
 
@@ -255,9 +261,9 @@
           const value = data.all_metrics.find(
             (d) => d.name === metric && d.period === 'century'
           )
-          element.innerHTML = value.total
+          element.innerHTML = value.total.toLocaleString()
         }
-        window.dispatchEvent(new Event('resize'))
+        setTimeout(() => window.dispatchEvent(new Event('resize')), 1)
       }
 
       // render when select menus change
