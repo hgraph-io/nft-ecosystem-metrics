@@ -30,10 +30,12 @@
         <div class="column">
           <h2>Total NFT Sales Volume</h2>
           <div id="nft_sales_volume" class="metric"></div>
+          <span>HBAR</span>
           <label class="switch">
-            <input type="checkbox" />
+            <input type="checkbox" id="switch" checked="checked" />
             <span class="slider round"></span>
           </label>
+          <span>USD</span>
         </div>
         <div class="column">
           <div
@@ -209,6 +211,7 @@
       import * as app from './index.js'
 
       const data = await app.fetchData()
+      const rate = await app.fetchRate()
 
       // https://observablehq.com/@vega/vega-lite-api-v5#standalone_use
       // https://vega.github.io/vega-lite/docs/config.html
@@ -228,7 +231,7 @@
       // register vega and vega-lite with the API
       vl.register(vega, vegaLite, options)
 
-      async function render(select) {
+      async function renderGraphs(select) {
         /*
          * graphs
          */
@@ -252,18 +255,27 @@
           element.innerHTML = ''
           element.appendChild(graph)
         }
-        /*
-         * metrics
-         */
+        setTimeout(() => window.dispatchEvent(new Event('resize')), 1)
+      }
+
+      /*
+       * metrics
+       */
+      async function renderSingleMetrics(inHbar = false) {
         const metrics = document.querySelectorAll('.metric')
         for (const element of metrics) {
           const metric = element.id
           const value = data.all_metrics.find(
             (d) => d.name === metric && d.period === 'century'
           )
-          element.innerHTML = value.total.toLocaleString()
+
+          const conversion = inHbar ? 1 : rate
+          const total = ['nft_market_cap', 'nft_sales_volume'].includes(metric)
+            ? (value.total * conversion) / 1e8
+            : value.total
+
+          element.innerHTML = total.toLocaleString()
         }
-        setTimeout(() => window.dispatchEvent(new Event('resize')), 1)
       }
 
       // render when select menus change
@@ -273,9 +285,16 @@
         }
       })
 
+      // switch between USD and HBAR
+      document.getElementById('switch').onchange = (e) => {
+        const value = e.target.checked ? 'usd' : 'hbar'
+        renderSingleMetrics(!e.target.checked)
+      }
+
       // see if DOM is already available then render inital state
       if (document.readyState === 'complete' || document.readyState === 'interactive') {
-        setTimeout(render, 1)
+        setTimeout(renderGraphs, 1)
+        setTimeout(renderSingleMetrics, 1)
       } else {
         document.addEventListener('DOMContentLoaded', render)
       }

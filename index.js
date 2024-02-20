@@ -69,7 +69,6 @@ export async function fetchData() {
     })
 
     const json = await response.json()
-    console.log(json)
     return json.data
   }
 
@@ -86,6 +85,21 @@ export async function fetchData() {
   const json = await hg(query)
   console.log(json)
   return json
+}
+
+export async function fetchRate() {
+  const response = await fetch(
+    'https://mainnet-public.mirrornode.hedera.com/api/v1/network/exchangerate',
+    {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json',
+      },
+    }
+  )
+  const json = await response.json()
+  console.log(json)
+  return json.current_rate.cent_equivalent / json.current_rate.hbar_equivalent / 100
 }
 
 export function bar({data, period, title, style = 'dark'}) {
