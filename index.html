@@ -281,7 +281,7 @@
       // render when select menus change
       document.querySelectorAll('select').forEach((e) => {
         e.onchange = (e) => {
-          render(e.target)
+          renderGraphs(e.target)
         }
       })
 
@@ -296,7 +296,8 @@
         setTimeout(renderGraphs, 1)
         setTimeout(renderSingleMetrics, 1)
       } else {
-        document.addEventListener('DOMContentLoaded', render)
+        document.addEventListener('DOMContentLoaded', renderGraphs)
+        document.addEventListener('DOMContentLoaded', renderSingleMetrics)
       }
     </script>
   </body>
