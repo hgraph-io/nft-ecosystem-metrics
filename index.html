@@ -8,28 +8,58 @@
     <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-lite-api@5.6.0"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-tooltip"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              ecoGreen: "#3ec878",
+              ecoDark: "#222222",
+            },
+          },
+        },
+      };
+    </script>
   </head>
 
-  <body>
-    <section class="container bubble">
-      <div>
-        <div id="nft_market_cap" class="metric"></div>
-        <span>Total Market Cap</span>
-      </div>
-      <div>
-        <div id="total_nfts" class="metric"></div>
-        <span>Total NFTs</span>
-      </div>
-      <div>
-        <div id="nft_holders" class="metric"></div>
-        <span>Total NFT holders</span>
+  <body
+    class="w-full min-h-[100vh] flex flex-col items-center justify-center 2xl:px-[60px]"
+  >
+    <section class="w-full 2xl:px-[40px] px-[30px]">
+      <div
+        class="2xl:flex-row flex-col rounded-tr-[120px] rounded-bl-[120px] flex item-center justify-between shadow-lg 2xl:py-[70px] py-[100px] 2xl:gap-0 gap-y-20"
+      >
+        <div class="flex flex-col items-center basis-1/3">
+          <div
+            id="nft_market_cap"
+            class="metric text-[36px] text-ecoGreen"
+          ></div>
+          <p class="font-semibold text-nowrap">Total Market Cap</p>
+        </div>
+        <div class="flex flex-col items-center basis-1/3">
+          <div id="total_nfts" class="metric text-[36px] text-ecoGreen"></div>
+          <span class="font-semibold">Total NFTs</span>
+        </div>
+        <div class="flex flex-col items-center basis-1/3">
+          <div id="nft_holders" class="metric text-[36px] text-ecoGreen"></div>
+          <span class="font-semibold">Total NFT holders</span>
+        </div>
       </div>
     </section>
-    <section class="container">
-      <div class="row">
-        <div class="column">
-          <h2>Total NFT Sales Volume</h2>
-          <div id="nft_sales_volume" class="metric"></div>
+
+    <div
+      class="flex w-full 2xl:flex-row flex-col my-[60px] 2xl:px-[60px] px-[30px]"
+    >
+      <div
+        class="flex flex-col 2xl:basis-1/3 basis-full items-center justify-center font-semibold"
+      >
+        <h2>Total NFT Sales Volume</h2>
+        <div
+          id="nft_sales_volume"
+          class="metric 2xl:text-[48px] text-[30px] font-bold"
+        ></div>
+        <div class="flex gap-x-2 items-center justify-center">
           <span>HBAR</span>
           <label class="switch">
             <input type="checkbox" id="switch" checked="checked" />
@@ -37,268 +67,371 @@
           </label>
           <span>USD</span>
         </div>
-        <div class="column">
-          <div
-            id="nft_sales_volume"
-            class="graph"
-            data-spec="bar"
-            data-title="NFT Sales Volume"
-            data-style="light"
-          ></div>
-        </div>
+      </div>
+      <div class="flex 2xl:basis-2/3 basis-full overflow-auto">
+        <div
+          id="nft_sales_volume"
+          class="graph w-[1100px] xl:w-full xl:w-full"
+          data-spec="bar"
+          data-style="light"
+          data-title=" "
+        ></div>
+      </div>
+    </div>
+
+    <section
+      class="bg-ecoDark text-white w-full 2xl:px-[60px] px-[30px] pt-[40px]"
+    >
+      <div class="border-b py-[70px]">
+        <h2 class="text-[30px]">On-chain metrics</h2>
+        <p class="max-w-[400px] mt-5">
+          View the Hedera NFT ecosystem through the lens of on-chain metrics.
+          Explore active accounts, NFT transfers, mints, and more.
+        </p>
       </div>
     </section>
-    <section class="container dark">
-      <h2>On-chain metrics</h2>
-      <p>
-        View the Hedera NFT ecosystem through the lens of on-chain metrics. Explore active
-        accounts, NFT transfers, mints, and more.
-      </p>
-      <hr />
-    </section>
-    <div class="container dark">
-      <section class="row">
-        <div class="column">
-          <h3>NFT Ecosystem Accounts</h3>
-          <select>
-            <option value="day">Day</option>
-            <option value="week">Week</option>
-            <option value="month" selected="selected">Month</option>
-            <option value="quarter">Quarter</option>
-            <option value="year">Year to Date</option>
-            <option value="century">All time</option>
-          </select>
-          <h4>ACTIVE NFT ECOSYSTEM RETAIL ACCOUNTS ON HEDERA</h4>
-          <p>
-            Accounts that have performed at least one NFT-related retail transaction (NFT
-            association, NFT transfer, received an NFT, per the specified period of time.
+    <div class="bg-ecoDark text-white w-full 2xl:px-[60px] px-[30px]">
+      <section class="flex 2xl:flex-row flex-col pt-[50px]">
+        <div class="flex basis-1/3 flex-col">
+          <h3 class="text-[30px]">NFT ecosystem accounts</h3>
+          <div class="py-10">
+            <select class="bg-ecoDark border py-1 px-3 2xl:w-[250px] w-full">
+              <option value="day">Day</option>
+              <option value="week">Week</option>
+              <option value="month" selected="selected">Month</option>
+              <option value="quarter">Quarter</option>
+              <option value="year">Year to Date</option>
+              <option value="century">All time</option>
+            </select>
+          </div>
+
+          <h4 class="text-[16px] font-semibold">
+            ACTIVE NFT ECOSYSTEM RETAIL ACCOUNTS ON HEDERA
+          </h4>
+          <p class="mt-3 text-[16px] max-w-[440px]">
+            Accounts that have performed at least one NFT-related retail
+            transaction (NFT association, NFT transfer, received an NFT), per
+            the specified period of time.
           </p>
         </div>
-        <div class="column">
-          <div
-            id="accounts_associating_nfts"
-            class="graph"
-            data-spec="bar"
-            data-title="Total accounts associating nfts"
-          ></div>
-          <div
-            id="accounts_sending_nfts"
-            class="graph"
-            data-spec="bar"
-            data-title="Accounts that sent an nft"
-          ></div>
-          <div>
-            <div
-              id="accounts_receiving_nfts"
-              class="graph"
-              data-spec="bar"
-              data-title="Accounts that received an nft"
-            ></div>
-            <div
-              id="active_nft_accounts"
-              class="graph"
-              data-spec="bar"
-              data-title="Total unique accounts that have performed 1 or more nft actions"
-            ></div>
+        <div class="flex flex-col basis-2/3 2xl:pl-[30px] gap-y-24 mt-20">
+          <div class="flex flex-col">
+            <span class="text-[20px] text-center uppercase"
+              >Total accounts associating nfts</span
+            >
+            <div class="overflow-auto">
+              <div
+                id="accounts_associating_nfts"
+                class="graph w-[1100px] xl:w-full"
+                data-spec="bar"
+                data-title=" "
+              ></div>
+            </div>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-[20px] text-center uppercase"
+              >Accounts that sent an nft</span
+            >
+            <div class="overflow-auto">
+              <div
+                id="accounts_sending_nfts"
+                class="graph w-[1100px] xl:w-full"
+                data-spec="bar"
+                data-title=" "
+              ></div>
+            </div>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-[20px] text-center uppercase"
+              >Accounts that received an nft</span
+            >
+            <div class="overflow-auto">
+              <div
+                id="accounts_receiving_nfts"
+                class="graph w-[1100px] xl:w-full"
+                data-spec="bar"
+                data-title=" "
+              ></div>
+            </div>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-[20px] text-center uppercase"
+              >Total unique accounts that have performed 1 or more nft
+              actions</span
+            >
+            <div class="overflow-auto">
+              <div
+                id="active_nft_accounts"
+                class="graph w-[1100px] xl:w-full"
+                data-spec="bar"
+                data-title=" "
+              ></div>
+            </div>
           </div>
         </div>
       </section>
-      <section class="row">
-        <div class="column">
-          <h4>Active NFT ecosystem builder accounts on Hedera</h4>
-          <p>
-            Accounts that have performed at least one NFT-related project/developer transaction
-            (NFT collection creation, NFT mint), per the specified period of
+      <section class="flex my-40 2xl:flex-row flex-col">
+        <div class="flex basis-1/3 flex-col">
+          <h4 class="text-[16px] font-semibold uppercase">
+            Active NFT ecosystem builder accounts on Hedera
+          </h4>
+          <p class="mt-3 text-[16px] max-w-[440px]">
+            Accounts that have performed at least one NFT-related
+            project/developer transaction (NFT collection creation, NFT mint),
+            per the specified period of
           </p>
-          <select>
-            <option value="day">Day</option>
-            <option value="week">Week</option>
-            <option value="month" selected="selected">Month</option>
-            <option value="quarter">Quarter</option>
-            <option value="year">Year to Date</option>
-            <option value="century">All time</option>
-          </select>
+          <div class="py-10">
+            <select class="bg-ecoDark border py-1 px-3 2xl:w-[250px] w-full">
+              <option value="day">Day</option>
+              <option value="week">Week</option>
+              <option value="month" selected="selected">Month</option>
+              <option value="quarter">Quarter</option>
+              <option value="year">Year to Date</option>
+              <option value="century">All time</option>
+            </select>
+          </div>
         </div>
-        <div class="column">
-          <div
-            id="accounts_creating_nft_collections"
-            class="graph"
-            data-spec="bar"
-            data-title="Accounts creating nft collections"
-          ></div>
-          <div
-            id="accounts_minting_nfts"
-            class="graph"
-            data-spec="bar"
-            data-title="Accounts that minted an nft"
-          ></div>
-          <div
-            id="active_nft_builder_accounts"
-            class="graph"
-            data-spec="bar"
-            data-title="Accounts creating nft collections"
-          ></div>
+        <div class="flex flex-col basis-2/3 2xl:pl-[30px] gap-y-24">
+          <div class="flex flex-col">
+            <span class="text-[20px] text-center uppercase"
+              >Accounts creating nft collections</span
+            >
+            <div class="overflow-auto">
+              <div
+                id="accounts_creating_nft_collections"
+                class="graph w-[1100px] xl:w-full"
+                data-spec="bar"
+                data-title=" "
+              ></div>
+            </div>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-[20px] text-center uppercase"
+              >Accounts that minted an nft</span
+            >
+            <div class="overflow-auto">
+              <div
+                id="accounts_minting_nfts"
+                class="graph w-[1100px] xl:w-full"
+                data-spec="bar"
+                data-title=" "
+              ></div>
+            </div>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-[20px] text-center uppercase"
+              >Accounts creating nft collections</span
+            >
+            <div class="overflow-auto">
+              <div
+                id="active_nft_builder_accounts"
+                class="graph w-[1100px] xl:w-full"
+                data-spec="bar"
+                data-title=" "
+              ></div>
+            </div>
+          </div>
         </div>
       </section>
-      <section class="row">
-        <div class="column">
-          <h3>NFT ecosystem activity</h3>
-          <select>
-            <option value="day">Day</option>
-            <option value="week">Week</option>
-            <option value="month" selected="selected">Month</option>
-            <option value="quarter">Quarter</option>
-            <option value="year">Year to Date</option>
-            <option value="century">All time</option>
-          </select>
-          <p>Number of NFT collections created on Hedera, per the specified period of time.</p>
-        </div>
-
-        <div class="column">
-          <div
-            id="nft_collections_created"
-            class="graph"
-            data-spec="bar"
-            data-title="New NFT collections on Hedera"
-          ></div>
-        </div>
-      </section>
-      <section class="row">
-        <div class="column">
-          <p>
-            Number of NFTs minted into an existing NFT collection on Hedera, per the specified
+      <section class="flex 2xl:flex-row flex-col">
+        <div class="flex basis-1/3 flex-col">
+          <h3 class="text-[30px]">NFT ecosystem activity</h3>
+          <p class="mt-3 text-[16px] max-w-[440px]">
+            Number of NFT collections created on Hedera, per the specified
             period of time.
           </p>
+          <div class="py-10">
+            <select class="bg-ecoDark border py-1 px-3 2xl:w-[250px] w-full">
+              <option value="day">Day</option>
+              <option value="week">Week</option>
+              <option value="month" selected="selected">Month</option>
+              <option value="quarter">Quarter</option>
+              <option value="year">Year to Date</option>
+              <option value="century">All time</option>
+            </select>
+          </div>
         </div>
-        <div class="column">
-          <div
-            id="nfts_minted"
-            class="graph"
-            data-spec="line"
-            data-title="NFTs minted Hedera"
-          ></div>
-          <div
-            id="nfts_minted"
-            class="graph"
-            data-spec="line"
-            data-title="Cumulative NFTs minted"
-            data-options='{"cumulative": true}'
-          ></div>
+
+        <div class="flex flex-col basis-2/3 2xl:pl-[30px] gap-y-24">
+          <div class="flex flex-col mt-[20px]">
+            <span class="text-[20px] text-center uppercase"
+              >New NFT collections on Hedera</span
+            >
+            <div class="overflow-auto">
+              <div
+                id="nft_collections_created"
+                class="graph w-[1100px] xl:w-full"
+                data-spec="bar"
+                data-title=" "
+              ></div>
+            </div>
+          </div>
         </div>
       </section>
-      <section class="row">
-        <div class="column">
-          <h2>NFT Ecosystem Account Cohort Analysis</h2>
-          <p>
+      <section class="flex mt-32 2xl:flex-row flex-col">
+        <div class="flex basis-1/3 flex-col">
+          <p class="text-[16px] max-w-[440px] 2xl:block hidden mt-56">
+            Number of NFTs minted into an existing NFT collection on Hedera, per
+            the specified period of time.
+          </p>
+        </div>
+        <div class="flex flex-col basis-2/3 2xl:pl-[30px] gap-y-24">
+          <div class="flex flex-col">
+            <span class="text-[20px] text-center uppercase"
+              >NFTs minted Hedera</span
+            >
+            <div class="overflow-auto">
+              <div
+                id="nfts_minted"
+                class="graph w-[1100px] xl:w-full"
+                data-spec="line"
+                data-title=" "
+              ></div>
+            </div>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-[20px] text-center uppercase"
+              >Cumulative NFTs minted</span
+            >
+            <div class="overflow-auto">
+              <div
+                id="nfts_minted"
+                class="graph w-[1100px] xl:w-full"
+                data-spec="line"
+                data-title=" "
+                data-options='{"cumulative": true}'
+              ></div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="flex mt-32 2xl:flex-row flex-col">
+        <div class="flex basis-1/3 flex-col">
+          <h2 class="text-[30px]">NFT Ecosystem Account Cohort Analysis</h2>
+          <p class="mt-3 text-[16px] max-w-[440px]">
             Accounts in the Hedera NFT ecosystem that performed their first NFT
-            ecosystem-related transaction and the percentage of accounts that returned to
-            perform another related transaction in subsequent weeks.
+            ecosystem-related transaction and the percentage of accounts that
+            returned to perform another related transaction in subsequent weeks.
           </p>
         </div>
         <!-- <div class="column"> -->
         <!--   <div id="todo" class="graph" data-spec="cohort"></div> -->
         <!-- </div> -->
-        <iframe
-          width="100%"
-          height="684"
-          frameborder="0"
-          src="https://observablehq.com/embed/@hgraph/hedera-nft-ecosystem-cohort-analysis@2247?cells=viewof+selection"
-        ></iframe>
+        <div class="flex flex-col basis-2/3 2xl:pl-[30px]">
+          <iframe
+            width="100%"
+            height="684"
+            frameborder="0"
+            src="https://observablehq.com/embed/@hgraph/hedera-nft-ecosystem-cohort-analysis@2247?cells=viewof+selection"
+          ></iframe>
+        </div>
       </section>
     </div>
 
     <script type="module">
-      import * as app from './index.js'
+      import * as app from "./index.js";
 
-      const data = await app.fetchData()
-      const rate = await app.fetchRate()
+      const data = await app.fetchData();
+      const rate = await app.fetchRate();
 
       // https://observablehq.com/@vega/vega-lite-api-v5#standalone_use
       // https://vega.github.io/vega-lite/docs/config.html
       const options = {
         config: {
-          mark: {tooltip: null},
+          mark: { tooltip: null },
         },
         init: (view) => {
-          view.tooltip(new vegaTooltip.Handler().call)
-          if (view.container()) view.container().style['overflow-x'] = 'auto'
+          view.tooltip(new vegaTooltip.Handler().call);
+          if (view.container()) view.container().style["overflow-x"] = "auto";
         },
         view: {
-          renderer: 'canvas',
+          renderer: "canvas",
         },
-      }
+      };
 
       // register vega and vega-lite with the API
-      vl.register(vega, vegaLite, options)
+      vl.register(vega, vegaLite, options);
 
       async function renderGraphs(select) {
         /*
          * graphs
          */
         const siblings = select
-          ? select.parentElement.parentElement.querySelectorAll('.graph')
-          : document.querySelectorAll('.graph')
+          ? select.parentElement.parentElement.parentElement.querySelectorAll(
+              ".graph"
+            )
+          : document.querySelectorAll(".graph");
         for (const element of siblings) {
-          const metric = element.id
-          const period = select?.value || 'month'
-          const title = element.getAttribute('data-title')?.toUpperCase()
-          const spec = element.getAttribute('data-spec')
-          const style = element.getAttribute('data-style') || 'dark'
-          const options = JSON.parse(element.getAttribute('data-options') || '{}')
+          const metric = element.id;
+          const period = select?.value || "month";
+          const title = element.getAttribute("data-title")?.toUpperCase();
+          const spec = element.getAttribute("data-spec");
+          const style = element.getAttribute("data-style") || "dark";
+          const options = JSON.parse(
+            element.getAttribute("data-options") || "{}"
+          );
           const graph = await app[spec]({
-            data: data.all_metrics.filter((d) => d.name === metric && d.period === period),
+            data: data.all_metrics.filter(
+              (d) => d.name === metric && d.period === period
+            ),
             period,
             title,
             style,
             ...options,
-          })
-          element.innerHTML = ''
-          element.appendChild(graph)
+          });
+          element.innerHTML = "";
+          element.appendChild(graph);
         }
-        setTimeout(() => window.dispatchEvent(new Event('resize')), 1)
+        setTimeout(() => window.dispatchEvent(new Event("resize")), 1);
       }
 
       /*
        * metrics
        */
       async function renderSingleMetrics(inHbar = false) {
-        const metrics = document.querySelectorAll('.metric')
+        const metrics = document.querySelectorAll(".metric");
         for (const element of metrics) {
-          const metric = element.id
+          const metric = element.id;
           const value = data.all_metrics.find(
-            (d) => d.name === metric && d.period === 'century'
-          )
+            (d) => d.name === metric && d.period === "century"
+          );
 
-          const conversion = inHbar ? 1 : rate
-          const total = ['nft_market_cap', 'nft_sales_volume'].includes(metric)
-            ? (value.total * conversion) / 1e8
-            : value.total
+          const conversion = inHbar ? 1 : rate;
+          const total = ["nft_market_cap", "nft_sales_volume"].includes(metric)
+            ? `${inHbar ? "" : "$"}` +
+              ((value.total * conversion) / 1e8).toLocaleString("en-US")
+            : value.total.toLocaleString("en-US");
 
-          element.innerHTML = total.toLocaleString()
+          element.innerHTML = total;
         }
       }
 
       // render when select menus change
-      document.querySelectorAll('select').forEach((e) => {
+      document.querySelectorAll("select").forEach((e) => {
         e.onchange = (e) => {
-          renderGraphs(e.target)
-        }
-      })
+          renderGraphs(e.target);
+        };
+      });
 
       // switch between USD and HBAR
-      document.getElementById('switch').onchange = (e) => {
-        const value = e.target.checked ? 'usd' : 'hbar'
-        renderSingleMetrics(!e.target.checked)
-      }
+      document.getElementById("switch").onchange = (e) => {
+        const value = e.target.checked ? "usd" : "hbar";
+        renderSingleMetrics(!e.target.checked);
+      };
 
       // see if DOM is already available then render inital state
-      if (document.readyState === 'complete' || document.readyState === 'interactive') {
-        setTimeout(renderGraphs, 1)
-        setTimeout(renderSingleMetrics, 1)
+      if (
+        document.readyState === "complete" ||
+        document.readyState === "interactive"
+      ) {
+        setTimeout(renderGraphs, 1);
+        setTimeout(renderSingleMetrics, 1);
       } else {
-        document.addEventListener('DOMContentLoaded', renderGraphs)
-        document.addEventListener('DOMContentLoaded', renderSingleMetrics)
+        document.addEventListener("DOMContentLoaded", renderGraphs);
+        document.addEventListener("DOMContentLoaded", renderSingleMetrics);
       }
+      document.addEventListener("resize", renderGraphs);
+      document.addEventListener("resize", renderSingleMetrics);
     </script>
   </body>
 </html>
