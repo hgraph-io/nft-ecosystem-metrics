@@ -28,7 +28,7 @@
   >
     <section class="w-full 2xl:px-[40px] px-[30px]">
       <div
-        class="2xl:flex-row flex-col rounded-tr-[120px] rounded-bl-[120px] flex item-center justify-between shadow-lg 2xl:py-[70px] py-[100px] 2xl:gap-0 gap-y-20"
+        class="xl:flex-row flex-col rounded-tr-[120px] rounded-bl-[120px] flex item-center justify-between shadow-lg 2xl:py-[70px] py-[100px] 2xl:gap-0 gap-y-20"
       >
         <div class="flex flex-col items-center basis-1/3">
           <div
@@ -49,10 +49,10 @@
     </section>
 
     <div
-      class="flex w-full 2xl:flex-row flex-col my-[60px] 2xl:px-[60px] px-[30px]"
+      class="flex w-full xl:flex-row flex-col my-[60px] 2xl:px-[60px] px-[30px]"
     >
       <div
-        class="flex flex-col 2xl:basis-1/3 basis-full items-center justify-center font-semibold"
+        class="flex flex-col xl:basis-1/3 basis-full items-center justify-center font-semibold"
       >
         <h2>Total NFT Sales Volume</h2>
         <div
@@ -91,7 +91,7 @@
       </div>
     </section>
     <div class="bg-ecoDark text-white w-full 2xl:px-[60px] px-[30px]">
-      <section class="flex 2xl:flex-row flex-col pt-[50px]">
+      <section class="flex xl:flex-row flex-col pt-[50px]">
         <div class="flex basis-1/3 flex-col">
           <h3 class="text-[30px]">NFT ecosystem accounts</h3>
           <div class="py-10">
@@ -170,7 +170,7 @@
           </div>
         </div>
       </section>
-      <section class="flex my-40 2xl:flex-row flex-col">
+      <section class="flex my-40 xl:flex-row flex-col">
         <div class="flex basis-1/3 flex-col">
           <h4 class="text-[16px] font-semibold uppercase">
             Active NFT ecosystem builder accounts on Hedera
@@ -233,7 +233,7 @@
           </div>
         </div>
       </section>
-      <section class="flex 2xl:flex-row flex-col">
+      <section class="flex xl:flex-row flex-col">
         <div class="flex basis-1/3 flex-col">
           <h3 class="text-[30px]">NFT ecosystem activity</h3>
           <p class="mt-3 text-[16px] max-w-[440px]">
@@ -268,7 +268,7 @@
           </div>
         </div>
       </section>
-      <section class="flex mt-32 2xl:flex-row flex-col">
+      <section class="flex mt-32 xl:flex-row flex-col">
         <div class="flex basis-1/3 flex-col">
           <p class="text-[16px] max-w-[440px] 2xl:block hidden mt-56">
             Number of NFTs minted into an existing NFT collection on Hedera, per
@@ -328,110 +328,6 @@
       </section>
     </div>
 
-    <script type="module">
-      import * as app from "./index.js";
-
-      const data = await app.fetchData();
-      const rate = await app.fetchRate();
-
-      // https://observablehq.com/@vega/vega-lite-api-v5#standalone_use
-      // https://vega.github.io/vega-lite/docs/config.html
-      const options = {
-        config: {
-          mark: { tooltip: null },
-        },
-        init: (view) => {
-          view.tooltip(new vegaTooltip.Handler().call);
-          if (view.container()) view.container().style["overflow-x"] = "auto";
-        },
-        view: {
-          renderer: "canvas",
-        },
-      };
-
-      // register vega and vega-lite with the API
-      vl.register(vega, vegaLite, options);
-
-      async function renderGraphs(select) {
-        /*
-         * graphs
-         */
-        const siblings = select
-          ? select.parentElement.parentElement.parentElement.querySelectorAll(
-              ".graph"
-            )
-          : document.querySelectorAll(".graph");
-        for (const element of siblings) {
-          const metric = element.id;
-          const period = select?.value || "month";
-          const title = element.getAttribute("data-title")?.toUpperCase();
-          const spec = element.getAttribute("data-spec");
-          const style = element.getAttribute("data-style") || "dark";
-          const options = JSON.parse(
-            element.getAttribute("data-options") || "{}"
-          );
-          const graph = await app[spec]({
-            data: data.all_metrics.filter(
-              (d) => d.name === metric && d.period === period
-            ),
-            period,
-            title,
-            style,
-            ...options,
-          });
-          element.innerHTML = "";
-          element.appendChild(graph);
-        }
-        setTimeout(() => window.dispatchEvent(new Event("resize")), 1);
-      }
-
-      /*
-       * metrics
-       */
-      async function renderSingleMetrics(inHbar = false) {
-        const metrics = document.querySelectorAll(".metric");
-        for (const element of metrics) {
-          const metric = element.id;
-          const value = data.all_metrics.find(
-            (d) => d.name === metric && d.period === "century"
-          );
-
-          const conversion = inHbar ? 1 : rate;
-          const total = ["nft_market_cap", "nft_sales_volume"].includes(metric)
-            ? `${inHbar ? "" : "$"}` +
-              ((value.total * conversion) / 1e8).toLocaleString("en-US")
-            : value.total.toLocaleString("en-US");
-
-          element.innerHTML = total;
-        }
-      }
-
-      // render when select menus change
-      document.querySelectorAll("select").forEach((e) => {
-        e.onchange = (e) => {
-          renderGraphs(e.target);
-        };
-      });
-
-      // switch between USD and HBAR
-      document.getElementById("switch").onchange = (e) => {
-        const value = e.target.checked ? "usd" : "hbar";
-        renderSingleMetrics(!e.target.checked);
-      };
-
-      // see if DOM is already available then render inital state
-      if (
-        document.readyState === "complete" ||
-        document.readyState === "interactive"
-      ) {
-        setTimeout(renderGraphs, 1);
-        setTimeout(renderSingleMetrics, 1);
-      } else {
-        document.addEventListener("DOMContentLoaded", renderGraphs);
-        document.addEventListener("DOMContentLoaded", renderSingleMetrics);
-      }
-      document.addEventListener("resize", renderGraphs);
-      document.addEventListener("resize", renderSingleMetrics);
-    </script>
+    <script type="module" src="main.js"></script>
   </body>
 </html>
