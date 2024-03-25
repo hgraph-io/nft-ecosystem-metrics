@@ -8,6 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-lite-api@5.6.0"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-tooltip"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -313,18 +314,10 @@
             ecosystem-related transaction and the percentage of accounts that
             returned to perform another related transaction in subsequent weeks.
           </p>
-        </div>
-        <!-- <div class="column"> -->
-        <!--   <div id="todo" class="graph" data-spec="cohort"></div> -->
-        <!-- </div> -->
-        <div class="flex flex-col basis-2/3 2xl:pl-[30px]">
-          <iframe
-            width="100%"
-            height="684"
-            frameborder="0"
-            src="https://observablehq.com/embed/@hgraph/hedera-nft-ecosystem-cohort-analysis@2247?cells=viewof+selection"
-          ></iframe>
-        </div>
+        </div>        
+        <div class="flex flex-col basis-2/3 2xl:pl-[30px]">          
+           <div id="ecosystem_active_nft_account_cohorts" class="graph" data-spec="cohort" data-title=" "></div>
+        </div>        
       </section>
     </div>
 

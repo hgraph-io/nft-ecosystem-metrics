@@ -56,7 +56,7 @@ export async function renderGraphs(input) {
         })
     }
     const graph = await app[spec]({
-      data: renderedData,
+      data: spec === 'cohort' ? data.activeNftAccountCohortsPerWeek : renderedData,
       period,
       title,
       style,
@@ -76,15 +76,18 @@ export async function renderSingleMetrics(inHbar = false) {
   for (const element of metrics) {
     const metric = element.id
     const value = data.all_metrics.find((d) => d.name === metric && d.period === 'century')
-
     const conversion = inHbar ? 1 : rate
     const total = ['nft_market_cap', 'nft_sales_volume'].includes(metric)
       ? ((value.total * conversion) / 1e8).toLocaleString(
           'en-US',
-          !inHbar ? {style: 'currency', currency: 'USD'} : undefined
+          !inHbar ? {style: 'currency', currency: 'USD', minimumFractionDigits: 0,
+          maximumFractionDigits: 0} : {minimumFractionDigits: 0, maximumFractionDigits: 0}
         )
       : value.total.toLocaleString('en-US')
-
-    element.innerHTML = total
+    if (metric ===  'nft_market_cap' || metric === 'total_nfts' || metric === 'nft_holders') {
+        element.innerHTML = Number(total.replace(/[^0-9.-]+/g,""));      
+    } else {
+        element.innerHTML = total
+    }
   }
 }
