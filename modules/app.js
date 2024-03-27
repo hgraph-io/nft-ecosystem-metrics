@@ -12,8 +12,10 @@ const graphGranularity = {
   day: 'hour',
   week: 'day',
   month: 'day',
-  quarter: 'day',
+  quarter: 'week',
+  ytd: 'month',
   year: 'month',
+  allTime: 'quarter',
 }
 
 const styles = {

@@ -15,27 +15,22 @@
         theme: {
           extend: {
             colors: {
-              ecoGreen: "#3ec878",
-              ecoDark: "#222222",
+              ecoGreen: '#3ec878',
+              ecoDark: '#222222',
             },
           },
         },
-      };
+      }
     </script>
   </head>
 
-  <body
-    class="w-full min-h-[100vh] flex flex-col items-center justify-center 2xl:px-[60px]"
-  >
+  <body class="w-full min-h-[100vh] flex flex-col items-center justify-center 2xl:px-[60px]">
     <section class="w-full 2xl:px-[40px] px-[30px]">
       <div
         class="xl:flex-row flex-col rounded-tr-[120px] rounded-bl-[120px] flex item-center justify-between shadow-lg 2xl:py-[70px] py-[100px] 2xl:gap-0 gap-y-20"
       >
         <div class="flex flex-col items-center basis-1/3">
-          <div
-            id="nft_market_cap"
-            class="metric text-[36px] text-ecoGreen"
-          ></div>
+          <div id="nft_market_cap" class="metric text-[36px] text-ecoGreen"></div>
           <p class="font-semibold text-nowrap">Total Market Cap</p>
         </div>
         <div class="flex flex-col items-center basis-1/3">
@@ -49,17 +44,12 @@
       </div>
     </section>
 
-    <div
-      class="flex w-full xl:flex-row flex-col my-[60px] 2xl:px-[60px] px-[30px]"
-    >
+    <div class="flex w-full xl:flex-row flex-col my-[60px] 2xl:px-[60px] px-[30px]">
       <div
         class="flex flex-col xl:basis-1/3 basis-full items-center justify-center font-semibold"
       >
         <h2>Total NFT Sales Volume</h2>
-        <div
-          id="nft_sales_volume"
-          class="metric 2xl:text-[48px] text-[30px] font-bold"
-        ></div>
+        <div id="nft_sales_volume" class="metric 2xl:text-[48px] text-[30px] font-bold"></div>
         <div class="flex gap-x-2 items-center justify-center">
           <span>HBAR</span>
           <label class="switch">
@@ -80,14 +70,12 @@
       </div>
     </div>
 
-    <section
-      class="bg-ecoDark text-white w-full 2xl:px-[60px] px-[30px] pt-[40px]"
-    >
+    <section class="bg-ecoDark text-white w-full 2xl:px-[60px] px-[30px] pt-[40px]">
       <div class="border-b py-[70px]">
         <h2 class="text-[30px]">On-chain metrics</h2>
         <p class="max-w-[400px] mt-5">
-          View the Hedera NFT ecosystem through the lens of on-chain metrics.
-          Explore active accounts, NFT transfers, mints, and more.
+          View the Hedera NFT ecosystem through the lens of on-chain metrics. Explore active
+          accounts, NFT transfers, mints, and more.
         </p>
       </div>
     </section>
@@ -110,9 +98,8 @@
             ACTIVE NFT ECOSYSTEM RETAIL ACCOUNTS ON HEDERA
           </h4>
           <p class="mt-3 text-[16px] max-w-[440px]">
-            Accounts that have performed at least one NFT-related retail
-            transaction (NFT association, NFT transfer, received an NFT), per
-            the specified period of time.
+            Accounts that have performed at least one NFT-related retail transaction (NFT
+            association, NFT transfer, received an NFT), per the specified period of time.
           </p>
         </div>
         <div class="flex flex-col basis-2/3 2xl:pl-[30px] gap-y-24 mt-20">
@@ -130,9 +117,7 @@
             </div>
           </div>
           <div class="flex flex-col">
-            <span class="text-[20px] text-center uppercase"
-              >Accounts that sent an nft</span
-            >
+            <span class="text-[20px] text-center uppercase">Accounts that sent an nft</span>
             <div class="overflow-auto">
               <div
                 id="accounts_sending_nfts"
@@ -143,9 +128,7 @@
             </div>
           </div>
           <div class="flex flex-col">
-            <span class="text-[20px] text-center uppercase"
-              >Accounts that received an nft</span
-            >
+            <span class="text-[20px] text-center uppercase">Accounts that received an nft</span>
             <div class="overflow-auto">
               <div
                 id="accounts_receiving_nfts"
@@ -157,8 +140,7 @@
           </div>
           <div class="flex flex-col">
             <span class="text-[20px] text-center uppercase"
-              >Total unique accounts that have performed 1 or more nft
-              actions</span
+              >Total unique accounts that have performed 1 or more nft actions</span
             >
             <div class="overflow-auto">
               <div
@@ -177,9 +159,8 @@
             Active NFT ecosystem builder accounts on Hedera
           </h4>
           <p class="mt-3 text-[16px] max-w-[440px]">
-            Accounts that have performed at least one NFT-related
-            project/developer transaction (NFT collection creation, NFT mint),
-            per the specified period of
+            Accounts that have performed at least one NFT-related project/developer transaction
+            (NFT collection creation, NFT mint), per the specified period of
           </p>
           <div class="py-10">
             <select class="bg-ecoDark border py-1 px-3 2xl:w-[250px] w-full">
@@ -207,9 +188,7 @@
             </div>
           </div>
           <div class="flex flex-col">
-            <span class="text-[20px] text-center uppercase"
-              >Accounts that minted an nft</span
-            >
+            <span class="text-[20px] text-center uppercase">Accounts that minted an nft</span>
             <div class="overflow-auto">
               <div
                 id="accounts_minting_nfts"
@@ -238,8 +217,7 @@
         <div class="flex basis-1/3 flex-col">
           <h3 class="text-[30px]">NFT ecosystem activity</h3>
           <p class="mt-3 text-[16px] max-w-[440px]">
-            Number of NFT collections created on Hedera, per the specified
-            period of time.
+            Number of NFT collections created on Hedera, per the specified period of time.
           </p>
           <div class="py-10">
             <select class="bg-ecoDark border py-1 px-3 2xl:w-[250px] w-full">
@@ -255,9 +233,7 @@
 
         <div class="flex flex-col basis-2/3 2xl:pl-[30px] gap-y-24">
           <div class="flex flex-col mt-[20px]">
-            <span class="text-[20px] text-center uppercase"
-              >New NFT collections on Hedera</span
-            >
+            <span class="text-[20px] text-center uppercase">New NFT collections on Hedera</span>
             <div class="overflow-auto">
               <div
                 id="nft_collections_created"
@@ -272,15 +248,13 @@
       <section class="flex mt-32 xl:flex-row flex-col">
         <div class="flex basis-1/3 flex-col">
           <p class="text-[16px] max-w-[440px] 2xl:block hidden mt-56">
-            Number of NFTs minted into an existing NFT collection on Hedera, per
-            the specified period of time.
+            Number of NFTs minted into an existing NFT collection on Hedera, per the specified
+            period of time.
           </p>
         </div>
         <div class="flex flex-col basis-2/3 2xl:pl-[30px] gap-y-24">
           <div class="flex flex-col">
-            <span class="text-[20px] text-center uppercase"
-              >NFTs minted Hedera</span
-            >
+            <span class="text-[20px] text-center uppercase">NFTs minted Hedera</span>
             <div class="overflow-auto">
               <div
                 id="nfts_minted"
@@ -291,9 +265,7 @@
             </div>
           </div>
           <div class="flex flex-col">
-            <span class="text-[20px] text-center uppercase"
-              >Cumulative NFTs minted</span
-            >
+            <span class="text-[20px] text-center uppercase">Cumulative NFTs minted</span>
             <div class="overflow-auto">
               <div
                 id="nfts_minted"
@@ -311,13 +283,18 @@
           <h2 class="text-[30px]">NFT Ecosystem Account Cohort Analysis</h2>
           <p class="mt-3 text-[16px] max-w-[440px]">
             Accounts in the Hedera NFT ecosystem that performed their first NFT
-            ecosystem-related transaction and the percentage of accounts that
-            returned to perform another related transaction in subsequent weeks.
+            ecosystem-related transaction and the percentage of accounts that returned to
+            perform another related transaction in subsequent weeks.
           </p>
-        </div>        
-        <div class="flex flex-col basis-2/3 2xl:pl-[30px]">          
-           <div id="ecosystem_active_nft_account_cohorts" class="graph" data-spec="cohort" data-title=" "></div>
-        </div>        
+        </div>
+        <div class="flex flex-col basis-2/3 2xl:pl-[30px]">
+          <div
+            id="ecosystem_active_nft_account_cohorts"
+            class="graph"
+            data-spec="cohort"
+            data-title=" "
+          ></div>
+        </div>
       </section>
     </div>
 
