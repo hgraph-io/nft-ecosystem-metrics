@@ -5,7 +5,7 @@ export const graphGranularity = {
   week: 'day',
   month: 'day',
   quarter: 'week',
-  ytd: 'month',
+  ytd: 'week',
   year: 'month',
   century: 'month',
 }
@@ -14,8 +14,8 @@ const vegaLiteTimeUnit = {
   day: 'monthdate',
   week: 'yearweek',
   month: 'yearmonth',
-  quarter: 'yearquarter',
-  ytd: 'year',
+  quarter: 'yearweek',
+  ytd: 'yearweek',
   year: 'year',
   century: 'year',
 }
