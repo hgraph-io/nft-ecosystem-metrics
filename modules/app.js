@@ -1,14 +1,6 @@
 //https://observablehq.com/@vega/vega-lite-api-v5#standalone_use
 // https://vega.github.io/schema/vega-lite/v5.json
-const vegaLiteTimeUnit = {
-  day: 'yearmonthdate',
-  week: 'yearweek',
-  month: 'yearmonth',
-  quarter: 'yearquarter',
-  year: 'year',
-}
-
-const graphGranularity = {
+export const graphGranularity = {
   day: 'hour',
   week: 'day',
   month: 'day',
@@ -16,6 +8,14 @@ const graphGranularity = {
   ytd: 'month',
   year: 'month',
   allTime: 'quarter',
+}
+
+const vegaLiteTimeUnit = {
+  day: 'yearmonthdate',
+  week: 'yearweek',
+  month: 'yearmonth',
+  quarter: 'yearquarter',
+  year: 'year',
 }
 
 const styles = {
@@ -175,7 +175,7 @@ export function bar({data, period, title, style = 'dark'}) {
     .encode(
       vl
         .x()
-        .timeUnit(vegaLiteTimeUnit[period])
+        .timeUnit(vegaLiteTimeUnit[graphGranularity[period]])
         .field('end_date')
         .bandPosition(0)
         .axis(style === 'dark' ? styles.xAxisDark : styles.xAxis)
@@ -240,7 +240,7 @@ export function bar({data, period, title, style = 'dark'}) {
         {fontSize: 15, fontWeight: 100}
       )
       .transform(vl.filter(hover.empty(false)))
-      .encode(vl.text().field('end_date').timeUnit(vegaLiteTimeUnit[period]))
+      .encode(vl.text().field('end_date').timeUnit(vegaLiteTimeUnit[graphGranularity[period]]))
   )
 
   return vl

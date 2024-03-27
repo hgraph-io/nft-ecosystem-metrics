@@ -3,6 +3,17 @@ import * as app from './app.js'
 const data = await app.fetchData()
 const rate = await app.fetchRate()
 
+const now = new Date()
+const graphPeriodStart = {
+  day: new Date(new Date().setDate(now.getDate() - 1)),
+  week: new Date(new Date().setDate(now.getDate() - 7)),
+  month: new Date(new Date().setMonth(now.getMonth() - 1)),
+  quarter: new Date(new Date().setMonth(now.getMonth() - 3)),
+  ytd: new Date(new Date().getFullYear(), 0, 1),
+  year: new Date(new Date().setFullYear(now.getFullYear() - 1)),
+  allTime: new Date(0),
+}
+
 // https://observablehq.com/@vega/vega-lite-api-v5#standalone_use
 // https://vega.github.io/vega-lite/docs/config.html
 const options = {
@@ -41,19 +52,27 @@ export async function renderGraphs(input) {
     const spec = element.getAttribute('data-spec')
     const style = element.getAttribute('data-style') || 'dark'
     const options = JSON.parse(element.getAttribute('data-options') || '{}')
-    let renderedData = data.all_metrics.filter((d) => d.name === metric && d.period === period)
+    // get the metrics based on name, granularity, and period
+    console.log(graphPeriodStart[period])
+    let renderedData = data.all_metrics.filter((d) => {
+      return (
+        d.name === metric &&
+        // d.period === period
+        d.period === app.graphGranularity[period] &&
+        new Date(d.start_date) >= graphPeriodStart[period]
+      )
+    })
+    console.log(renderedData)
     if (metric === 'nft_sales_volume') {
       // in Hbar
       const _htmlSwitch = htmlSwitch || document.getElementById('switch')
       const conversion = !_htmlSwitch.checked ? 1 : rate
-      renderedData = data.all_metrics
-        .filter((d) => d.name === metric && d.period === period)
-        .map((d) => {
-          return {
-            ...d,
-            total: (d.total * conversion) / 1e8,
-          }
-        })
+      renderedData = renderedData.map((d) => {
+        return {
+          ...d,
+          total: (d.total * conversion) / 1e8,
+        }
+      })
     }
     const graph = await app[spec]({
       data: spec === 'cohort' ? data.activeNftAccountCohortsPerWeek : renderedData,
