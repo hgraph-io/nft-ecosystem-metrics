@@ -595,4 +595,3 @@ const CohortGrid = function (
 
   return element
 }
-

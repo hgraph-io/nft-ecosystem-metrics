@@ -80,14 +80,20 @@ export async function renderSingleMetrics(inHbar = false) {
     const total = ['nft_market_cap', 'nft_sales_volume'].includes(metric)
       ? ((value.total * conversion) / 1e8).toLocaleString(
           'en-US',
-          !inHbar ? {style: 'currency', currency: 'USD', minimumFractionDigits: 0,
-          maximumFractionDigits: 0} : {minimumFractionDigits: 0, maximumFractionDigits: 0}
+          !inHbar
+            ? {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+              }
+            : {minimumFractionDigits: 0, maximumFractionDigits: 0}
         )
       : value.total.toLocaleString('en-US')
-    if (metric ===  'nft_market_cap' || metric === 'total_nfts' || metric === 'nft_holders') {
-        element.innerHTML = Number(total.replace(/[^0-9.-]+/g,""));      
+    if (metric === 'nft_market_cap' || metric === 'total_nfts' || metric === 'nft_holders') {
+      element.innerHTML = Number(total.replace(/[^0-9.-]+/g, ''))
     } else {
-        element.innerHTML = total
+      element.innerHTML = total
     }
   }
 }
