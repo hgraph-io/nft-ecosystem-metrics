@@ -34,7 +34,7 @@ export async function renderGraphs(input) {
       : input.parentElement.parentElement.parentElement.querySelectorAll('.graph')
     : document.querySelectorAll('.graph')
   // default to month view
-  const period = input?.tagName === 'select' ? select?.value || 'month' : 'month'
+  const period = input?.tagName === 'SELECT' ? input?.value || 'month' : 'month'
   for (const element of siblings) {
     const metric = element.id
     const title = element.getAttribute('data-title')?.toUpperCase()

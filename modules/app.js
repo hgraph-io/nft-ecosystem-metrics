@@ -130,7 +130,6 @@ export async function fetchData() {
 }`
 
   const json = await hg(query)
-  console.log(json)
   return json
 }
 
