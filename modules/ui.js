@@ -11,7 +11,7 @@ const graphPeriodStart = {
   quarter: new Date(new Date().setMonth(now.getMonth() - 3)),
   ytd: new Date(new Date().getFullYear(), 0, 1),
   year: new Date(new Date().setFullYear(now.getFullYear() - 1)),
-  allTime: new Date(0),
+  century: new Date(0),
 }
 
 // https://observablehq.com/@vega/vega-lite-api-v5#standalone_use
@@ -45,24 +45,22 @@ export async function renderGraphs(input) {
       : input.parentElement.parentElement.parentElement.querySelectorAll('.graph')
     : document.querySelectorAll('.graph')
   // default to month view
-  const period = input?.tagName === 'SELECT' ? input?.value || 'month' : 'month'
+
   for (const element of siblings) {
     const metric = element.id
+    let period = input?.tagName === 'SELECT' ? input?.value || 'month' : 'month'
+    if (metric === 'nft_sales_volume') period = 'century'
     const title = element.getAttribute('data-title')?.toUpperCase()
     const spec = element.getAttribute('data-spec')
     const style = element.getAttribute('data-style') || 'dark'
     const options = JSON.parse(element.getAttribute('data-options') || '{}')
     // get the metrics based on name, granularity, and period
-    console.log(graphPeriodStart[period])
-    let renderedData = data.all_metrics.filter((d) => {
-      return (
+    let renderedData = data.all_metrics.filter(
+      (d) =>
         d.name === metric &&
-        // d.period === period
         d.period === app.graphGranularity[period] &&
         new Date(d.start_date) >= graphPeriodStart[period]
-      )
-    })
-    console.log(renderedData)
+    )
     if (metric === 'nft_sales_volume') {
       // in Hbar
       const _htmlSwitch = htmlSwitch || document.getElementById('switch')

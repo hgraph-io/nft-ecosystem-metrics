@@ -7,15 +7,17 @@ export const graphGranularity = {
   quarter: 'week',
   ytd: 'month',
   year: 'month',
-  allTime: 'quarter',
+  century: 'month',
 }
 
 const vegaLiteTimeUnit = {
-  day: 'yearmonthdate',
+  day: 'monthdate',
   week: 'yearweek',
   month: 'yearmonth',
   quarter: 'yearquarter',
+  ytd: 'year',
   year: 'year',
+  century: 'year',
 }
 
 const styles = {
@@ -155,6 +157,7 @@ export async function fetchRate() {
  * Build the bar graph
  */
 export function bar({data, period, title, style = 'dark'}) {
+  console.log(period)
   // https://observablehq.com/@vega/vega-lite-annotated-time-series?collection=@vega/vega-lite-api
   const hover = vl
     .selectPoint('hover')
@@ -259,7 +262,7 @@ export function bar({data, period, title, style = 'dark'}) {
 /*
  * Build the line graph
  */
-export function line({data, title, cumulative = false, style = 'dark'}) {
+export function line({data, period, title, cumulative = false, style = 'dark'}) {
   const line = vl
     .markLine({
       interpolate: 'monotone',
@@ -279,7 +282,9 @@ export function line({data, title, cumulative = false, style = 'dark'}) {
     .encode(
       vl
         .x()
-        .fieldT('end_date')
+        .field('end_date')
+        .timeUnit(vegaLiteTimeUnit[graphGranularity[period]])
+        // .fieldT('end_date')
         .title(null)
         .axis(style === 'dark' ? styles.xAxisDark : styles.xAxis),
       vl
