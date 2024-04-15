@@ -123,11 +123,12 @@ export async function fetchData() {
     start_date
     end_date
     total
-  },
+	}
+	,
   activeNftAccountCohortsPerWeek: ecosystem_active_nft_account_cohorts {
-        cohort_date: start_date
-        period_date: end_date
-        users: total
+        cohort
+        period
+        total
     }
 }`
 
@@ -157,7 +158,6 @@ export async function fetchRate() {
  * Build the bar graph
  */
 export function bar({data, period, title, style = 'dark'}) {
-  console.log(period)
   // https://observablehq.com/@vega/vega-lite-annotated-time-series?collection=@vega/vega-lite-api
   const hover = vl
     .selectPoint('hover')
@@ -350,10 +350,10 @@ export function line({data, period, title, cumulative = false, style = 'dark'}) 
  * Build the cohort grid
  */
 export function cohort({data, title}) {
-  const csv = data.map(({cohort_date, period_date, users}) => ({
-    cohort_date: new Date(cohort_date),
-    period_date: new Date(period_date),
-    users,
+  const csv = data.map(({cohort, period, total}) => ({
+    cohort_date: new Date(cohort),
+    period_date: new Date(period),
+    users: total,
   }))
 
   const processedData = processCohortData(csv)
