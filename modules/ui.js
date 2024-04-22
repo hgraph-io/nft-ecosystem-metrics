@@ -5,6 +5,7 @@ const rate = await app.fetchRate()
 
 const now = new Date()
 const graphPeriodStart = {
+  hour: new Date(new Date().setDate(now.getDate() - 1)),
   day: new Date(new Date().setDate(now.getDate() - 1)),
   week: new Date(new Date().setDate(now.getDate() - 7)),
   month: new Date(new Date().setMonth(now.getMonth() - 1)),
