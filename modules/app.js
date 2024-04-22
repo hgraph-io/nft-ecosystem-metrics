@@ -158,6 +158,8 @@ export async function fetchRate() {
  * Build the bar graph
  */
 export function bar({data, period, title, style = 'dark'}) {
+  console.log(data)
+  console.log(period)
   // https://observablehq.com/@vega/vega-lite-annotated-time-series?collection=@vega/vega-lite-api
   const hover = vl
     .selectPoint('hover')
