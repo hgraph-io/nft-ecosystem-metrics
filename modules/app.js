@@ -11,6 +11,7 @@ export const graphGranularity = {
 }
 
 const vegaLiteTimeUnit = {
+  hour: 'hours',
   day: 'monthdate',
   week: 'yearweek',
   month: 'yearmonth',
@@ -120,7 +121,6 @@ export async function fetchData() {
   all_metrics: ecosystem_metric {
     name
     period
-    start_date
     end_date
     total
 	}
