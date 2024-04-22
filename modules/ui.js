@@ -60,7 +60,7 @@ export async function renderGraphs(input) {
       (d) =>
         d.name === metric &&
         d.period === app.graphGranularity[period] &&
-        new Date(d.start_date) >= graphPeriodStart[period]
+        new Date(d.end_date) >= graphPeriodStart[period]
     )
     if (metric === 'nft_sales_volume') {
       // in Hbar
