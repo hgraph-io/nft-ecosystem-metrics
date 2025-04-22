@@ -117,19 +117,14 @@ export async function fetchData() {
     return json.data
   }
 
-	const query = `
-	query AllMetrics {
+  const query = `
+query AllMetrics {
   all_metrics: ecosystem_metric(
     where: {name: {_in: ["accounts_associating_nfts", "accounts_creating_nft_collections", "accounts_minting_nfts", "accounts_receiving_nfts", "accounts_sending_nfts", "active_nft_accounts", "active_nft_builder_accounts", "nft_collections_created", "nft_holders", "nft_market_cap", "nft_sales_volume", "nfts_minted", "nfts_transferred", "total_nfts"]}}
   ) {
     name
     period
     end_date
-    total
-  }
-  activeNftAccountCohortsPerWeek: ecosystem_active_nft_account_cohorts {
-    cohort
-    period
     total
   }
 }
